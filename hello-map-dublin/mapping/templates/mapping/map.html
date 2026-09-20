@@ -24,33 +24,35 @@
     <div id="map"></div>
     <script>
         const map = L.map('map').setView([{{ dublin_lat }}, {{ dublin_lon }}], 13);
-        
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors',
-            maxZoom: 19
+
+        // Using CartoDB Voyager tiles to prevent OSM 403 blocks in local dev
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            maxZoom: 19,
+            subdomains: 'abcd'
         }).addTo(map);
-        
+
         const markers = [
             {
                 lat: 53.3432,
-                lon: -6.2575,
+                lon: -6.2545,
                 name: 'Trinity College Dublin',
                 popup: 'Trinity College Dublin - Founded 1592'
             },
             {
-                lat: 53.3414,
-                lon: -6.2725,
+                lat: 53.3429,
+                lon: -6.2674,
                 name: 'Dublin Castle',
                 popup: 'Dublin Castle - Historic seat of power'
             },
             {
-                lat: 53.3416,
-                lon: -6.2831,
+                lat: 53.3456,
+                lon: -6.2642,
                 name: 'Temple Bar',
-                popup: 'Temple Bar - Historic neighborhood'
+                popup: 'Temple Bar - Cultural quarter'
             }
         ];
-        
+
         markers.forEach(function(marker) {
             L.marker([marker.lat, marker.lon])
                 .addTo(map)
