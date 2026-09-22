@@ -20,6 +20,7 @@ def spatial_analysis_dashboard(request):
             poi_type__in=['attraction', 'historic']
         ).order_by('-rating'),
         'zones': LandUseZone.objects.all(),
+        'all_pois': DublinPOI.objects.all().order_by('poi_name'),
     }
 
     return render(request, 'spatial_analysis/dashboard.html', context)

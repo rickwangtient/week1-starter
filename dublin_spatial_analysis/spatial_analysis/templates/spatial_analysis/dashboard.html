@@ -62,6 +62,38 @@
         {% endfor %}
     </div>
 
+    <h2 class="mt-5">All Points of Interest</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Rating</th>
+                <th>Visitors/day</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for poi in all_pois %}
+            <tr>
+                <td>{{ poi.poi_name }}</td>
+                <td>{{ poi.get_poi_type_display }}</td>
+                <td>{{ poi.rating|default:"N/A" }}</td>
+                <td>{{ poi.visitors_per_day|default:"N/A" }}</td>
+                <td>
+                    <a href="{% url 'spatial_analysis:poi_detail' poi.pk %}" class="btn btn-outline-primary btn-sm">
+                        View
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-muted">No points of interest yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     <h2 class="mt-5">Administrative Areas</h2>
     <table class="table table-striped">
         <thead>
