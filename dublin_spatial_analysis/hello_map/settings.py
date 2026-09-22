@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.gis',
-    'mapping',
+    'django.contrib.gis',  # GeoDjango (already added in Week 1)
+    'mapping',             # Week 1 app
+    'spatial_analysis',    # NEW: Week 2 app
 ]
 
 MIDDLEWARE = [
