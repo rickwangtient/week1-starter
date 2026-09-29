@@ -1,0 +1,675 @@
+openapi: 3.0.3
+info:
+  title: Cities API
+  version: 1.0.0
+  description: RESTful API for city data with spatial capabilities
+paths:
+  /api/cities/:
+    get:
+      operationId: cities_list
+      description: List all cities or create a new city
+      parameters:
+      - in: query
+        name: country
+        schema:
+          type: string
+      - in: query
+        name: is_capital
+        schema:
+          type: boolean
+      - in: query
+        name: max_founded_year
+        schema:
+          type: integer
+      - in: query
+        name: max_population
+        schema:
+          type: integer
+      - in: query
+        name: min_founded_year
+        schema:
+          type: integer
+      - in: query
+        name: min_population
+        schema:
+          type: integer
+      - in: query
+        name: name
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: region
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - cities
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCityListList'
+          description: ''
+    post:
+      operationId: cities_create
+      description: List all cities or create a new city
+      tags:
+      - cities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CityCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CityCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CityCreate'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CityCreate'
+          description: ''
+  /api/cities/{id}/:
+    get:
+      operationId: cities_retrieve
+      description: Retrieve, update, or delete a city instance
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - cities
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CityDetail'
+          description: ''
+    put:
+      operationId: cities_update
+      description: Retrieve, update, or delete a city instance
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - cities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CityCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CityCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CityCreate'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CityCreate'
+          description: ''
+    patch:
+      operationId: cities_partial_update
+      description: Retrieve, update, or delete a city instance
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - cities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCityCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCityCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCityCreate'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CityCreate'
+          description: ''
+    delete:
+      operationId: cities_destroy
+      description: Retrieve, update, or delete a city instance
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - cities
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/cities/bbox/:
+    post:
+      operationId: cities_bbox_create
+      description: Find cities within a bounding box
+      tags:
+      - cities
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/cities/countries/:
+    get:
+      operationId: cities_countries_retrieve
+      description: Return list of countries with city counts
+      tags:
+      - cities
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/cities/geojson/:
+    get:
+      operationId: cities_geojson_list
+      description: Return cities as GeoJSON for mapping applications
+      parameters:
+      - in: query
+        name: country
+        schema:
+          type: string
+      - in: query
+        name: is_capital
+        schema:
+          type: boolean
+      - in: query
+        name: max_founded_year
+        schema:
+          type: integer
+      - in: query
+        name: max_population
+        schema:
+          type: integer
+      - in: query
+        name: min_founded_year
+        schema:
+          type: integer
+      - in: query
+        name: min_population
+        schema:
+          type: integer
+      - in: query
+        name: name
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: region
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - cities
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCityGeoJSONList'
+          description: ''
+  /api/cities/info/:
+    get:
+      operationId: cities_info_retrieve
+      description: Return API information and available endpoints
+      tags:
+      - cities
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/cities/stats/:
+    get:
+      operationId: cities_stats_retrieve
+      description: Return statistical summary of cities data
+      tags:
+      - cities
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/cities/within-radius/:
+    post:
+      operationId: cities_within_radius_create
+      description: Find cities within specified radius of a point
+      tags:
+      - cities
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    CityCreate:
+      type: object
+      description: Serializer for creating new cities
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        country:
+          type: string
+          maxLength: 100
+        region:
+          type: string
+          maxLength: 100
+        population:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        latitude:
+          type: number
+          format: double
+          writeOnly: true
+        longitude:
+          type: number
+          format: double
+          writeOnly: true
+        elevation_m:
+          type: number
+          format: double
+          nullable: true
+        founded_year:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        is_capital:
+          type: boolean
+        timezone:
+          type: string
+          maxLength: 50
+      required:
+      - country
+      - latitude
+      - longitude
+      - name
+      - population
+    CityDetail:
+      type: object
+      description: Comprehensive serializer for city details
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        country:
+          type: string
+          maxLength: 100
+        region:
+          type: string
+          maxLength: 100
+        population:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        latitude:
+          type: string
+          readOnly: true
+        longitude:
+          type: string
+          readOnly: true
+        coordinates:
+          type: string
+          readOnly: true
+        elevation_m:
+          type: number
+          format: double
+          nullable: true
+        founded_year:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        age_years:
+          type: string
+          readOnly: true
+        is_capital:
+          type: boolean
+        timezone:
+          type: string
+          maxLength: 50
+        population_category:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - age_years
+      - coordinates
+      - country
+      - created_at
+      - id
+      - latitude
+      - longitude
+      - name
+      - population
+      - population_category
+      - updated_at
+    CityGeoJSON:
+      type: object
+      description: GeoJSON serializer for mapping applications
+      properties:
+        type:
+          $ref: '#/components/schemas/GisFeatureEnum'
+        id:
+          type: integer
+          readOnly: true
+        geometry:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+                format: float
+              example:
+              - 12.9721
+              - 77.5933
+              minItems: 2
+              maxItems: 3
+        properties:
+          type: object
+          properties:
+            name:
+              type: string
+              maxLength: 100
+            country:
+              type: string
+              maxLength: 100
+            region:
+              type: string
+              maxLength: 100
+            population:
+              type: integer
+              maximum: 2147483647
+              minimum: 0
+            elevation_m:
+              type: number
+              format: double
+              nullable: true
+            founded_year:
+              type: integer
+              maximum: 2147483647
+              minimum: -2147483648
+              nullable: true
+            age_years:
+              type: string
+              readOnly: true
+            is_capital:
+              type: boolean
+            timezone:
+              type: string
+              maxLength: 50
+            population_category:
+              type: string
+              readOnly: true
+    CityGeoJSONList:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/GisFeatureCollectionEnum'
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/CityGeoJSON'
+    CityList:
+      type: object
+      description: Lightweight serializer for city lists
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        country:
+          type: string
+          maxLength: 100
+        population:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        latitude:
+          type: string
+          readOnly: true
+        longitude:
+          type: string
+          readOnly: true
+        is_capital:
+          type: boolean
+        population_category:
+          type: string
+          readOnly: true
+      required:
+      - country
+      - id
+      - latitude
+      - longitude
+      - name
+      - population
+      - population_category
+    GisFeatureCollectionEnum:
+      type: string
+      enum:
+      - FeatureCollection
+    GisFeatureEnum:
+      type: string
+      enum:
+      - Feature
+    PaginatedCityGeoJSONList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        type:
+          $ref: '#/components/schemas/GisFeatureCollectionEnum'
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        features:
+          $ref: '#/components/schemas/CityGeoJSONList'
+    PaginatedCityListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CityList'
+    PatchedCityCreate:
+      type: object
+      description: Serializer for creating new cities
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        country:
+          type: string
+          maxLength: 100
+        region:
+          type: string
+          maxLength: 100
+        population:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        latitude:
+          type: number
+          format: double
+          writeOnly: true
+        longitude:
+          type: number
+          format: double
+          writeOnly: true
+        elevation_m:
+          type: number
+          format: double
+          nullable: true
+        founded_year:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        is_capital:
+          type: boolean
+        timezone:
+          type: string
+          maxLength: 50
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
