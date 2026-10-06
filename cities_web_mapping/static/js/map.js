@@ -45,7 +45,7 @@ async function initMap() {
 
         // Add markers to map
         addMarkersToMap(citiesData);
-
+        addHeatmapLayer(citiesData);
     } catch (error) {
         console.error('Error fetching cities:', error);
         console.error('Error details:', {
