@@ -1,0 +1,38 @@
+{% extends "advanced_js_mapping/base.html" %}
+
+{% block title %}Search history{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="h3 mb-3">Search history</h1>
+    <p class="text-secondary">Each polygon search is stored with the number of cities, total population, and how long the PostGIS query took.</p>
+    <div class="table-responsive">
+        <table class="table table-sm align-middle">
+            <thead>
+                <tr>
+                    <th>When</th>
+                    <th>Cities</th>
+                    <th>Total population</th>
+                    <th>Area km²</th>
+                    <th>Query ms</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for analysis in analyses %}
+                <tr>
+                    <td>{{ analysis.analysis_timestamp }}</td>
+                    <td>{{ analysis.cities_count }}</td>
+                    <td>{{ analysis.total_population }}</td>
+                    <td>{{ analysis.area_analyzed_km2|floatformat:1 }}</td>
+                    <td>{{ analysis.query_duration_ms }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-secondary">No polygon searches yet. Draw an area on the map first.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
