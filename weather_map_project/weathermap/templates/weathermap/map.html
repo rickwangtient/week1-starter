@@ -1,0 +1,27 @@
+{% extends 'weathermap/base.html' %}
+{% load static %}
+
+{% block title %}Weather Map - Real-Time Data{% endblock %}
+
+{% block header_controls %}
+<div class="header-controls">
+    <label class="search-label" for="city-search">Search cities</label>
+    <input id="city-search" type="search" placeholder="Search cities..." autocomplete="off">
+    <div id="search-results" class="search-results" hidden></div>
+    <button id="unit-toggle" type="button" aria-pressed="false">Show °F</button>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="map-container">
+    <div id="map"></div>
+    <div id="loading" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading weather data...</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'weathermap/js/map.js' %}?v={% now 'U' %}"></script>
+{% endblock %}
